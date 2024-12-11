@@ -1,0 +1,107 @@
+blueprint:
+  name: "Contrôle de la Sirène NEO"
+  description: "Active ou désactive la sirène NEO via MQTT"
+  domain: script
+  input:
+    mqtt_topic:
+      name: "Sujet MQTT de la sirène NEO"
+      description: "Le sujet MQTT utilisé pour contrôler la sirène."
+      default: "zigbee2mqtt/Sirène_RDC/set"
+      
+    action:
+      name: "alarm"
+      description: "Choisir entre activer ou désactiver la sirène"
+      selector:
+        select:
+          options:
+            - label: "Activer"
+              value: "true"
+            - label: "Désactiver"
+              value: "false"
+    mode:
+      name: "melody"
+      description: "Sélectionner le type d'alerte pour la sirène"
+      default: 11
+      selector:
+        select:
+          options:
+            - label: "Effraction"
+              value: "6"
+            - label: "Police"
+              value: "11"
+            - label: "Alarme nucléaire"
+              value: "7"
+            - label: "Police - Panic"
+              value: "14"
+            - label: "Sonnette Ding Dong"
+              value: "18"
+            - label: "Sonnette vieux tel"
+              value: "17"
+            - label: "Bip Bip réveil"
+              value: "16"
+            - label: "Mise Alarme"
+              value: "9"
+            - label: "Melodie"
+              value: "1"  
+              
+    duration:
+      name: "duration"
+      description: "Durée (en secondes) pendant laquelle la sirène restera active."
+      default: 4
+      
+    level:
+      name: "volume"
+      description: "Niveau sonore de la sirène."
+      default: "high"
+      selector:
+        select:
+          options:
+            - label: "Faible"
+              value: "low"
+            - label: "Moyen"
+              value: "medium"
+            - label: "Fort"
+              value: "high"
+
+
+variables:
+  mqtt_topic: !input mqtt_topic
+  action: !input action
+  mode: !input mode
+  duration: !input duration
+  level: !input level
+
+
+mode: single
+sequence:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ action == 'activate' }}"
+        sequence:
+          - service: mqtt.publish
+            data:
+              topic: "{{ mqtt_topic }}"
+              payload: >
+                {{ {
+                  "warning": {
+                    "mode": mode,
+                    "level": level,
+                    "duration": duration
+                  }
+                } | tojson }}
+      - conditions:
+          - condition: template
+            value_template: "{{ action == 'deactivate' }}"
+        sequence:
+          - service: mqtt.publish
+            data:
+              topic: "{{ mqtt_topic }}"
+              payload: >
+                {{ {
+                  "warning": {
+                    "mode": "1",
+                    "level": "low",
+                    "duration": 1
+                  }
+                } | tojson }}
