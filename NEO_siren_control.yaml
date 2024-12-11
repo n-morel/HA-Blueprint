@@ -84,7 +84,7 @@ sequence:
               topic: "{{ mqtt_topic }}"
               payload: >
                 {{ {
-                  {
+                  
                     "alarm": "true",
                     "battery_low": "",
                     "battpercentage": "",
@@ -92,7 +92,7 @@ sequence:
                     "linkquality": "",
                     "melody": melody,
                     "volume": volume                    
-                  }
+                  
                 } | tojson }}
       - conditions:
           - condition: template
@@ -103,7 +103,7 @@ sequence:
               topic: "{{ mqtt_topic }}"
               payload: >
                 {{ {
-                  {
+                  
                     "alarm": "true",
                     "battery_low": "",
                     "battpercentage": "",
@@ -111,5 +111,5 @@ sequence:
                     "linkquality": "",
                     "melody": "1",
                     "volume": volume  
-                  }
+                  
                 } | tojson }}
