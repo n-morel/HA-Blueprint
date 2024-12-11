@@ -77,7 +77,7 @@ sequence:
   - choose:
       - conditions:
           - condition: template
-            value_template: "{{ action == 'activate' }}"
+            value_template: "{{ alarm == 'true' }}"
         sequence:
           - service: mqtt.publish
             data:
@@ -96,7 +96,7 @@ sequence:
                 } | tojson }}
       - conditions:
           - condition: template
-            value_template: "{{ action == 'deactivate' }}"
+            value_template: "{{ alarm == 'false' }}"
         sequence:
           - service: mqtt.publish
             data:
