@@ -8,7 +8,7 @@ blueprint:
       description: "Le sujet MQTT utilisé pour contrôler la sirène."
       default: "zigbee2mqtt/Sirène_RDC/set"
       
-    action:
+    alarm:
       name: "alarm"
       description: "Choisir entre activer ou désactiver la sirène"
       selector:
@@ -18,7 +18,7 @@ blueprint:
               value: "true"
             - label: "Désactiver"
               value: "false"
-    mode:
+    melody:
       name: "melody"
       description: "Sélectionner le type d'alerte pour la sirène"
       default: 11
@@ -49,7 +49,7 @@ blueprint:
       description: "Durée (en secondes) pendant laquelle la sirène restera active."
       default: 4
       
-    level:
+    volume:
       name: "volume"
       description: "Niveau sonore de la sirène."
       default: "high"
@@ -66,10 +66,10 @@ blueprint:
 
 variables:
   mqtt_topic: !input mqtt_topic
-  action: !input action
-  mode: !input mode
+  alarm: !input alarm
+  melody: !input melody
   duration: !input duration
-  level: !input level
+  volume: !input volume
 
 
 mode: single
@@ -85,9 +85,13 @@ sequence:
               payload: >
                 {{ {
                   "warning": {
-                    "mode": mode,
-                    "level": level,
-                    "duration": duration
+                    "alarm": "true",
+                    "battery_low": "",
+                    "battpercentage": "",
+                    "duration": duration,
+                    "linkquality": "",
+                    "melody": melody,
+                    "volume": volume                    
                   }
                 } | tojson }}
       - conditions:
@@ -100,8 +104,12 @@ sequence:
               payload: >
                 {{ {
                   "warning": {
-                    "mode": "1",
-                    "level": "low",
-                    "duration": 1
+                    "alarm": "true",
+                    "battery_low": "",
+                    "battpercentage": "",
+                    "duration": "1",
+                    "linkquality": "",
+                    "melody": "1",
+                    "volume": "volume"  
                   }
                 } | tojson }}
