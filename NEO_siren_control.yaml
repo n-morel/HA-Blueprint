@@ -84,7 +84,7 @@ sequence:
               topic: "{{ mqtt_topic }}"
               payload: >
                 {{ {
-                  "warning": {
+                  {
                     "alarm": "true",
                     "battery_low": "",
                     "battpercentage": "",
@@ -103,7 +103,7 @@ sequence:
               topic: "{{ mqtt_topic }}"
               payload: >
                 {{ {
-                  "warning": {
+                  {
                     "alarm": "true",
                     "battery_low": "",
                     "battpercentage": "",
