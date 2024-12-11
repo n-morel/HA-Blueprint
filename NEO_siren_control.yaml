@@ -110,6 +110,6 @@ sequence:
                     "duration": "1",
                     "linkquality": "",
                     "melody": "1",
-                    "volume": "volume"  
+                    "volume": volume  
                   }
                 } | tojson }}
