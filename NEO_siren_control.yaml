@@ -6,7 +6,7 @@ blueprint:
     mqtt_topic:
       name: "Sujet MQTT de la sirène NEO"
       description: "Le sujet MQTT utilisé pour contrôler la sirène."
-      default: "zigbee2mqtt/Sirène_RDC/set"
+      default: "zigbee2mqtt/Sirene_RDC/set"
       
     alarm:
       name: "alarm"
@@ -21,7 +21,7 @@ blueprint:
     melody:
       name: "melody"
       description: "Sélectionner le type d'alerte pour la sirène"
-      default: 11
+      default: "11"
       selector:
         select:
           options:
@@ -47,7 +47,7 @@ blueprint:
     duration:
       name: "duration"
       description: "Durée (en secondes) pendant laquelle la sirène restera active."
-      default: 4
+      default: "4"
       
     volume:
       name: "volume"
