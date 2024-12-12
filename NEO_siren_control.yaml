@@ -109,7 +109,7 @@ sequence:
                     "battpercentage": "",
                     "duration": "1",
                     "linkquality": "",
-                    "melody": "1",
+                    "melody": "16",
                     "volume": "low"  
                   
                 } | tojson }}
